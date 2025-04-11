@@ -67,7 +67,7 @@ export default class Database {
         )`);
 
         this.sqliteDatabase.run(`CREATE TABLE IF NOT EXISTS RepoastForgetMe (
-            message_id TEXT PRIMARY KEY NOT NULL    
+            message_id TEXT PRIMARY KEY NOT NULL
         )`);
 
         this.sqliteDatabase.run(`CREATE TABLE IF NOT EXISTS RepoastMedia (

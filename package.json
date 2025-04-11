@@ -7,7 +7,7 @@
     "googleapis": "^133.0.0",
     "libsodium-wrappers": "^0.7.13",
     "node-fetch": "^3.3.2",
-    "node-libcurl": "^4.1.0",
+    "node-libcurl": "latest",
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {

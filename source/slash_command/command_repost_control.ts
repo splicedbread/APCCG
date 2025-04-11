@@ -53,21 +53,6 @@ export default class CommandRepostControl extends ApccgSlashCommand {
                             )
                             .setRequired(true),
                     ),
-            )
-            .addSubcommand((subcommand) =>
-                subcommand
-                    .setName("history_ingest")
-                    .setDescription(
-                        "Ingests history of channel, may take a while...",
-                    )
-                    .addStringOption((input) =>
-                        input
-                            .setName("messageid")
-                            .setDescription(
-                                "Id of message to begin history from",
-                            )
-                            .setRequired(false),
-                    ),
             );
     }
 
@@ -89,8 +74,6 @@ export default class CommandRepostControl extends ApccgSlashCommand {
                 return this.removeChannelFromDatabase(interaction);
             case "forget_this":
                 return this.forgetMessage(interaction);
-            case "history_ingest":
-                return this.historyIngest(interaction);
             default:
                 Logger.log(
                     "Invalid subcommand run on /repoast",
@@ -99,10 +82,6 @@ export default class CommandRepostControl extends ApccgSlashCommand {
         }
 
         return new Promise<boolean>(() => false);
-    }
-
-    getInterval(): number {
-        return this.repeatIntervalSeconds;
     }
 
     disabled(): boolean {
@@ -140,12 +119,6 @@ export default class CommandRepostControl extends ApccgSlashCommand {
         return new Promise<boolean>(() => {
             success;
         });
-    }
-
-    private async historyIngest(
-        interaction: CommandInteraction,
-    ): Promise<boolean> {
-        return false;
     }
 
     private async forgetMessage(
