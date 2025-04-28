@@ -19,7 +19,7 @@ export default class CommandRepostControl extends ApccgSlashCommand {
     minMessageAgeToDeleteSeconds: number = 300;
     // must be less than or equal to 100
     messagesToLookBackOnLimit: number = 100;
-    currentlyDisabled: boolean = false;
+    currentlyDisabled: boolean = true;
 
     public override commandData(): any {
         return new SlashCommandBuilder()
