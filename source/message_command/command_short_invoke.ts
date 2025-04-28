@@ -4,7 +4,7 @@ import ApccgMessageCommand from "./apccg_message_command.js";
 import Database from "../database.js"
 
 export default class CommandShortInvoke extends ApccgMessageCommand {
-    public pattern: RegExp = /->*/
+    public pattern: RegExp = /^->/
 
     public async execute(message: discord.Message): Promise<void> {
         this.relayCommand(message);
@@ -73,15 +73,12 @@ export default class CommandShortInvoke extends ApccgMessageCommand {
 
         if (commandText == null || commandText === "") {
             await (message.channel as TextChannel).send({files:[`./data/attachments/${attachmentPath}`]});
-            await message.delete();
         }
         else if (attachmentPath == null || attachmentPath === "") {
             await (message.channel as TextChannel).send({content: `${commandText}`});
-            await message.delete();
         }
         else {
             await (message.channel as TextChannel).send({content: `${commandText}`, files:[`./data/attachments/${attachmentPath}`]});
-            await message.delete();
         }
 
         return true;
