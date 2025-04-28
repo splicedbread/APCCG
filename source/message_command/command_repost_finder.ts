@@ -15,7 +15,8 @@ import discord, {
 } from "discord.js";
 
 export default class CommandRepostFinder extends ApccgMessageCommand {
-    public pattern: RegExp = /image\/.*|video\/.*/;
+    // Disabled until further development
+    // public pattern: RegExp = /image\/.*|video\/.*/;
 
     public override getTitle(): string {
         return "Repost Finder";
