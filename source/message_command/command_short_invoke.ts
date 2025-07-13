@@ -4,7 +4,7 @@ import ApccgMessageCommand from "./apccg_message_command.js";
 import Database from "../database.js"
 
 export default class CommandShortInvoke extends ApccgMessageCommand {
-    public pattern: RegExp = /^->/
+    public pattern: RegExp = /^([~-]+>)/
 
     public async execute(message: discord.Message): Promise<void> {
         this.relayCommand(message);
@@ -24,7 +24,7 @@ export default class CommandShortInvoke extends ApccgMessageCommand {
             return false;
         }
 
-        const commandName = message.cleanContent.slice(2);
+        const commandName = message.cleanContent.slice(message.content.indexOf('>')+1);
 
         console.log(`Command Name: ${commandName}`);
         
