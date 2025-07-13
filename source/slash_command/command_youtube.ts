@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder, GuildMember, InteractionType, Message, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, CommandInteraction, EmbedBuilder, GuildMember, InteractionType, Message, SlashCommandBuilder } from "discord.js";
 import ApccgSlashCommand from "./apccg_slash_command.js";
 import { Logger, MessageType } from "../logger.js";
 import { AudioPlayer, DiscordGatewayAdapterCreator, NoSubscriberBehavior, VoiceConnection, createAudioResource, getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
@@ -259,7 +259,7 @@ export default class CommandRadio extends ApccgSlashCommand {
         return true;
     }
 
-    private skipSong(interaction: CommandInteraction) : boolean {
+    private skipSong(interaction: ChatInputCommandInteraction) : boolean {
         if (this.getRepeatMode(interaction) !== "none") {
             this.setRepeatMode(interaction, "none");
             interaction.channel?.send("(Repeat disabled)");
@@ -280,7 +280,7 @@ export default class CommandRadio extends ApccgSlashCommand {
     }
 
 
-    private toggleRepeatCurrentTrack(interaction: CommandInteraction) : boolean {
+    private toggleRepeatCurrentTrack(interaction: ChatInputCommandInteraction) : boolean {
 
         let repeatOption = interaction.options.get("repeat_option")?.value as string;
 
@@ -551,7 +551,7 @@ export default class CommandRadio extends ApccgSlashCommand {
         }
     }
 
-    private async queueSong(interaction: CommandInteraction): Promise<boolean> {
+    private async queueSong(interaction: ChatInputCommandInteraction): Promise<boolean> {
         try {
             const videoUrl = interaction.options.get("video_url")?.value;
             if (typeof videoUrl !== 'string') {

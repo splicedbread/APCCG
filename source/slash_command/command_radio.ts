@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder, GuildMember, InteractionType, Message, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionType, Message, SlashCommandBuilder } from "discord.js";
 import discord from "discord.js";
 import ApccgSlashCommand from "./apccg_slash_command.js";
 import { Logger, MessageType } from "../logger.js";
@@ -100,7 +100,7 @@ export default class CommandRadio extends ApccgSlashCommand {
     connection: VoiceConnection | null = null;
     lastStream: string | null = null;
 
-    private async listAvailableRadio(interaction: CommandInteraction): Promise<boolean> {
+    private async listAvailableRadio(interaction: ChatInputCommandInteraction): Promise<boolean> {
         const databaseResult = await Database.instance().getAllRadioStations();
 
         if (databaseResult == null) {
@@ -137,7 +137,7 @@ export default class CommandRadio extends ApccgSlashCommand {
         return true;
     }
 
-    private async removeRadioFromDatabase(interaction: CommandInteraction): Promise<boolean> {
+    private async removeRadioFromDatabase(interaction: ChatInputCommandInteraction): Promise<boolean> {
         const streamName = interaction.options.get("stream_name")?.value;
         if (streamName == null || typeof streamName !== "string") return false;
 
@@ -148,7 +148,7 @@ export default class CommandRadio extends ApccgSlashCommand {
         return success;
     }
 
-    private async addRadioToDatabase(interaction: CommandInteraction): Promise<boolean> {
+    private async addRadioToDatabase(interaction: ChatInputCommandInteraction): Promise<boolean> {
         const streamName = interaction.options.get("stream_name")?.value;
         const streamUrl = interaction.options.get("stream_url")?.value;
         
@@ -162,7 +162,7 @@ export default class CommandRadio extends ApccgSlashCommand {
         return success;
     }
 
-    private async JoinChannelAndPlay(interaction: CommandInteraction): Promise<boolean> {
+    private async JoinChannelAndPlay(interaction: ChatInputCommandInteraction): Promise<boolean> {
         const streamName = interaction.options.get("stream_name")?.value;
         if (typeof streamName !== 'string') {
             interaction.reply("That is certainly not the name of the station!");
@@ -234,7 +234,7 @@ export default class CommandRadio extends ApccgSlashCommand {
         this.audioPlayer?.play(resource);
     }
 
-    private async leaveChannelAndStop(interaction: CommandInteraction): Promise<boolean> {
+    private async leaveChannelAndStop(interaction: ChatInputCommandInteraction): Promise<boolean> {
         const guildId = interaction.guild!.id;
         if (!guildId) {
             return false;

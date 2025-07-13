@@ -1,4 +1,4 @@
-import { CommandInteraction, InteractionType, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, CommandInteraction, InteractionType, SlashCommandBuilder } from "discord.js";
 import discord from "discord.js";
 import ApccgSlashCommand from "./apccg_slash_command.js";
 import { Logger, MessageType } from "../logger.js";
@@ -62,7 +62,7 @@ export default class CommandHello extends ApccgSlashCommand {
         `;
     }
 
-    private async addKaomojiToDatabase(interaction: CommandInteraction): Promise<boolean> {
+    private async addKaomojiToDatabase(interaction: ChatInputCommandInteraction): Promise<boolean> {
         const kaomoji = interaction.options.get("kaomoji")?.value;
         
         if (typeof kaomoji !== "string") return false;
