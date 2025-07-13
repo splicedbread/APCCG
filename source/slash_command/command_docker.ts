@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder, Interaction, InteractionType, SlashCommandBuilder, User } from "discord.js";
+import { ChatInputCommandInteraction, CommandInteraction, EmbedBuilder, Interaction, InteractionType, SlashCommandBuilder, User } from "discord.js";
 import discord from "discord.js";
 import ApccgSlashCommand from "./apccg_slash_command.js";
 import { Logger, MessageType } from "../logger.js";
@@ -150,7 +150,7 @@ export default class CommandDocker extends ApccgSlashCommand {
 
     private rejectionString: string = "𝗧𝗵𝗲 𝗗𝗮𝗼 𝘁𝗵𝗮𝘁 𝗰𝗮𝗻 𝗯𝗲 𝘀𝗽𝗼𝗸𝗲𝗻 𝗶𝘀 𝗻𝗼𝘁 𝘁𝗵𝗲 𝗲𝘁𝗲𝗿𝗻𝗮𝗹 𝗗𝗮𝗼";
 
-    private async getCommandInfo(interaction: CommandInteraction): Promise<boolean> {
+    private async getCommandInfo(interaction: ChatInputCommandInteraction): Promise<boolean> {
         let commandName = interaction.options.get("name")?.value as string;
 
         await interaction.reply(`Looking up info for ${commandName}...`);
@@ -190,7 +190,7 @@ export default class CommandDocker extends ApccgSlashCommand {
         return new Promise<boolean>((resolve, reject) => resolve(true));
     }
 
-    private async addUser(interaction: CommandInteraction): Promise<boolean> {
+    private async addUser(interaction: ChatInputCommandInteraction): Promise<boolean> {
         if (!(await this.canAlterUsers(interaction))) {
             interaction.reply(this.rejectionString);
             return new Promise<boolean>((resolve, reject) => resolve(false));
@@ -242,7 +242,7 @@ export default class CommandDocker extends ApccgSlashCommand {
         return new Promise<boolean>((resolve, reject) => resolve(res));
     }
 
-    private async addCommand(interaction: CommandInteraction): Promise<boolean> {
+    private async addCommand(interaction: ChatInputCommandInteraction): Promise<boolean> {
         if (!(await this.canAddCommands(interaction))) {
             await interaction.reply(this.rejectionString);
             return new Promise<boolean>((resolve, reject) => resolve(false));
@@ -269,7 +269,7 @@ export default class CommandDocker extends ApccgSlashCommand {
         return new Promise<boolean>((resolve, reject) => resolve(res));
     }
 
-    private async removeCommand(interaction: CommandInteraction): Promise<boolean> {
+    private async removeCommand(interaction: ChatInputCommandInteraction): Promise<boolean> {
         if (!(await this.canRemoveCommands(interaction))) {
             interaction.reply(this.rejectionString);
             return new Promise<boolean>((resolve, reject) => resolve(false));
@@ -286,7 +286,7 @@ export default class CommandDocker extends ApccgSlashCommand {
         return new Promise<boolean>((resolve, reject) => resolve(res));
     }
 
-    private async runCommand(interaction: CommandInteraction): Promise<boolean> {
+    private async runCommand(interaction: ChatInputCommandInteraction): Promise<boolean> {
         if (!(await this.canRunCommands(interaction))) {
             interaction.reply(this.rejectionString);
             return new Promise<boolean>((resolve, reject) => resolve(false));
@@ -311,7 +311,7 @@ export default class CommandDocker extends ApccgSlashCommand {
         return new Promise<boolean>((resolve, reject) => resolve(res != null));
     }
 
-    private async stopContainer(interaction: CommandInteraction): Promise<boolean> {
+    private async stopContainer(interaction: ChatInputCommandInteraction): Promise<boolean> {
         if (!(await this.canStopCommands(interaction))) {
             interaction.reply(this.rejectionString);
             return new Promise<boolean>((resolve, reject) => resolve(false));

@@ -2,7 +2,7 @@ import { CustomClient } from "../customclient.js";
 import Database from "../database.js";
 import { Logger, MessageType } from "../logger.js";
 import ApccgIntervalCommand from "./apccg_interval_command.js";
-import discord, { Channel, CommandInteraction, InteractionType, Message, SlashCommandBuilder, TextChannel, User, channelLink } from "discord.js"; 
+import discord, { Channel, ChatInputCommandInteraction, CommandInteraction, InteractionType, Message, SlashCommandBuilder, TextChannel, User, channelLink } from "discord.js"; 
 
 
 export default class CommandPurgeKarutaSpam extends ApccgIntervalCommand {
@@ -164,7 +164,7 @@ export default class CommandPurgeKarutaSpam extends ApccgIntervalCommand {
         return new Promise<boolean>(()=>{success});
     }
 
-    private async deleteMessagesAround(interaction: CommandInteraction): Promise<boolean> {
+    private async deleteMessagesAround(interaction: ChatInputCommandInteraction): Promise<boolean> {
         if (interaction.channel === null) {
             interaction.reply("Where ARE you?");
             return new Promise<boolean>(()=>{false});

@@ -18,7 +18,7 @@ export default class CommandHello extends ApccgSlashCommand {
     }
 
     public override async execute(args: any[]): Promise<boolean> {
-        let interaction = args[0] as discord.CommandInteraction;
+        let interaction = args[0] as discord.ChatInputCommandInteraction;
         
         const rollTimes = (interaction.options.get("flip_times")?.value) as number;
         const headsOutcome = (interaction.options.get("heads_outcome")?.value ?? "") as string;
