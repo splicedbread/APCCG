@@ -189,7 +189,7 @@ export default class CommandRepostControl extends ApccgSlashCommand {
         let injestIDVar = interaction.options?.get("messageid").value;
 
         if (injestIDVar == undefined || injestIDVar == "") {
-            interaction.reply("MessageID is empty and could not be added as a forgotten message.");
+            interaction.reply("MessageID is empty and could not be removed as a forgotten message.");
             return false;
         }
 
@@ -199,9 +199,9 @@ export default class CommandRepostControl extends ApccgSlashCommand {
             const success = await Database.instance().unforgetMessageFromChannel(extractedID);
 
             if (success) {
-                interaction.reply("Added new forgotten message!");
+                interaction.reply("Removed forgotten message!");
             } else {
-                interaction.reply("Unfortunately, could not forget this message!");
+                interaction.reply("Unfortunately, could not remember this message!");
             }
 
             return true;
@@ -211,9 +211,9 @@ export default class CommandRepostControl extends ApccgSlashCommand {
                 const success = await Database.instance().unforgetMessageFromChannel(extractedID.toString());
 
                 if (success) {
-                interaction.reply("Added new forgotten message!");
+                interaction.reply("Removed forgotten message!");
                 } else {
-                    interaction.reply("Unfortunately, could not forget this message!");
+                    interaction.reply("Unfortunately, could not remember this message!");
                 }
 
                 return true;
