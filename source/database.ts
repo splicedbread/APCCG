@@ -379,6 +379,26 @@ export default class Database {
         });
     }
 
+    public unforgetMessageFromChannel(messageId: String): Promise<boolean> {
+        Logger.log(`Removing message to be remembered ${messageId}`);
+        return new Promise<boolean>((resolve, reject) => {
+            this.sqliteDatabase.run(
+                `
+                DELETE FROM RepoastForgetMe
+                WHERE message_id = ?;
+                `,
+                [messageId],
+                (err: Error | null) => {
+                    if (err) {
+                        Logger.log(`SQL Error: ${err.message}`, MessageType.WARNING);
+                        resolve(false);
+                        return;
+                    }
+                }
+            );
+        });
+    }
+
     public addMediaPoastFromChannel(channelId: String, messageId: String, mediaHash: String): Promise<boolean> {
         Logger.log(`Adding media to be tracked, m:${messageId},c:${channelId}`);
         return new Promise<boolean>((resolve, reject) =>{ 
