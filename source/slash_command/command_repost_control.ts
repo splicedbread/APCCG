@@ -4,6 +4,7 @@ import { Logger, MessageType } from "../logger.js";
 import ApccgSlashCommand from "./apccg_slash_command.js";
 import discord, {
     Channel,
+    ChatInputCommandInteraction,
     CommandInteraction,
     InteractionType,
     Message,
@@ -53,6 +54,21 @@ export default class CommandRepostControl extends ApccgSlashCommand {
                             )
                             .setRequired(true),
                     ),
+            )
+            .addSubcommand((subcommand) =>
+                subcommand
+                .setName("unforget_this")
+                .setDescription(
+                    "Removes the removed message around a certain message id",
+                )
+                .addStringOption((input) =>
+                    input
+                        .setName("messageid")
+                        .setDescription(
+                            "Id of message to remove deletion record from",
+                        )
+                        .setRequired(true),
+                ),
             );
     }
 
@@ -74,6 +90,8 @@ export default class CommandRepostControl extends ApccgSlashCommand {
                 return this.removeChannelFromDatabase(interaction);
             case "forget_this":
                 return this.forgetMessage(interaction);
+            case "unforget_this":
+                return this.unforgetMessage(interaction);
             default:
                 Logger.log(
                     "Invalid subcommand run on /repoast",
@@ -96,6 +114,7 @@ export default class CommandRepostControl extends ApccgSlashCommand {
         return `**/register** -> Register channel to be tracked for repost blaming.
         **/unregister** -> Unregister channel from tracked repost blaming.
         **/forget_this** -> Delete message from the repost history.
+        **/unforget_this** -> Unforget message from the repost history.
         **/history_ingest** -> Ingest the history of the given channel for repost blaming.
         Triggers every new media message in a subscribed channel.`;
     }
@@ -122,8 +141,88 @@ export default class CommandRepostControl extends ApccgSlashCommand {
     }
 
     private async forgetMessage(
-        interaction: CommandInteraction,
+        interaction: ChatInputCommandInteraction,
     ): Promise<boolean> {
+        let injestIDVar = interaction.options?.get("messageid").value;
+
+        if (injestIDVar == undefined || injestIDVar == "") {
+            interaction.reply("MessageID is empty and could not be added as a forgotten message.");
+            return false;
+        }
+
+        if (injestIDVar.toString().indexOf("https") > 0) {
+            let extractedID = injestIDVar.toString().slice(injestIDVar.toString().lastIndexOf('/') + 1);
+
+            const success = await Database.instance().forgetMessageFromChannel(extractedID);
+
+            if (success) {
+                interaction.reply("Added new forgotten message!");
+            } else {
+                interaction.reply("Unfortunately, could not forget this message!");
+            }
+
+            return true;
+        } else {
+            let extractedID = Number.parseInt(injestIDVar.toString())
+            if (extractedID != undefined && extractedID > 0) {
+                const success = await Database.instance().forgetMessageFromChannel(extractedID.toString());
+
+                if (success) {
+                interaction.reply("Added new forgotten message!");
+                } else {
+                    interaction.reply("Unfortunately, could not forget this message!");
+                }
+
+                return true;
+            } else {
+                interaction.reply("MessageID is not in either link or numeric format and could not be added as a forgotten message.");
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private async unforgetMessage(
+        interaction: ChatInputCommandInteraction,
+    ): Promise<boolean> {
+        let injestIDVar = interaction.options?.get("messageid").value;
+
+        if (injestIDVar == undefined || injestIDVar == "") {
+            interaction.reply("MessageID is empty and could not be added as a forgotten message.");
+            return false;
+        }
+
+        if (injestIDVar.toString().indexOf("https") > 0) {
+            let extractedID = injestIDVar.toString().slice(injestIDVar.toString().lastIndexOf('/') + 1);
+
+            const success = await Database.instance().unforgetMessageFromChannel(extractedID);
+
+            if (success) {
+                interaction.reply("Added new forgotten message!");
+            } else {
+                interaction.reply("Unfortunately, could not forget this message!");
+            }
+
+            return true;
+        } else {
+            let extractedID = Number.parseInt(injestIDVar.toString())
+            if (extractedID != undefined && extractedID > 0) {
+                const success = await Database.instance().unforgetMessageFromChannel(extractedID.toString());
+
+                if (success) {
+                interaction.reply("Added new forgotten message!");
+                } else {
+                    interaction.reply("Unfortunately, could not forget this message!");
+                }
+
+                return true;
+            } else {
+                interaction.reply("MessageID is not in either link or numeric format and could not be added as a forgotten message.");
+                return false;
+            }
+        }
+
         return false;
     }
 
