@@ -222,7 +222,6 @@ export default class CommandRepostControl extends ApccgSlashCommand {
                 return false;
             }
         }
-
         return false;
     }
 
